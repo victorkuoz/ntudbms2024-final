@@ -9,5 +9,5 @@
 - must run with csie vpn
 ```
 cd database
-python3 hello_milvus.py
+python3 main.py
 ```
