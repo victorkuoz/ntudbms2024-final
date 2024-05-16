@@ -45,7 +45,7 @@ class EmbedDB():
     def db_commit(self):
         self.db.commit()
 
-embed_db = EmbedDB("my_audio.db")
+embed_db = EmbedDB("my_embedding.db")
 
 if __name__ == "__main__":
 
