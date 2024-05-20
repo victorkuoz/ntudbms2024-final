@@ -6,8 +6,7 @@
 ```
 
 ## Milvus
-- must run with csie vpn
 ```
 cd database
-python3 main.py
+python3 upload.py
 ```
