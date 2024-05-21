@@ -1,12 +1,15 @@
 from fastapi import FastAPI, UploadFile
 from utility import *
 
+import io
+import soundfile as sf
+
 app = FastAPI()
 
 @app.post("/audio_query")
-async def audio_query(file: UploadFile):
-    content = await file.read()
-    embedding = audio_embedding(content)
+async def audio_query(audio: UploadFile):
+    content, sampling_rate = sf.read(io.BytesIO(await audio.read()))
+    embedding = audio_embedding([content])[0]
     result = audio_embedding_search(embedding)
 
     return {'result': result}
