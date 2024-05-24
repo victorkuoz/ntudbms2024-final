@@ -27,7 +27,7 @@ export default function UploadModal() {
 	};
 
 	return (
-		<div className="container px-4 max-w-5xl mx-auto">
+		<div className="flex-col place-items-center w-full h-full flex-wrap gap-4">
 			{!file ? (
 				<div
 					onDragOver={(e) => {
@@ -44,7 +44,7 @@ export default function UploadModal() {
 					onDrop={(e) => drophandler(e)}
 					className={`${
 						fileEnter ? "border-4" : "border-2"
-					} mx-auto  bg-white flex flex-col w-full max-w-xs h-72 border-dashed items-center justify-center`}>
+					} mx-auto  bg-white flex flex-col w-full max-w-xs h-full border-dashed items-center justify-center`}>
 					<label
 						htmlFor="file"
 						className="h-full flex flex-col justify-center text-center">
