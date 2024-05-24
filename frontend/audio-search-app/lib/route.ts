@@ -1,7 +1,34 @@
 
+const API = (target: string) => `http://127.0.0.1:8000${target}`
+
+export const audioQuery = async (file: File) => {
+    const formData = new FormData();
+	formData.append("file", file);
+    console.log(formData)
+    try {
+		const response = await fetch(API("/audio_query"), {
+			method: "POST",
+			body: formData
+		});
+
+		if (!response.ok) {
+			throw new Error(
+				`Error sending file URL to Python: ${response.statusText}`
+			);
+		} else {
+            console.log(response)
+        }
+	} catch (error) {
+		console.error("Error sending file URL to Python:", error);
+	}
+}
+
+
+
+
 const sendFileUrlToPython = async (fileUrl: string) => {
 	try {
-		const response = await fetch("/your-python-endpoint", {
+		const response = await fetch(API("/audio_query"), {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ fileUrl }),
