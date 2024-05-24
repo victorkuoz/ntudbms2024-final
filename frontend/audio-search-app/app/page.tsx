@@ -25,15 +25,18 @@ export default function Home() {
 							</p>
 						</div>
 					</div>
-					<div className="flex-col flex content-center flex-wrap gap-4 h-full">
+					<div className="flex-col flex content-center items-center flex-wrap gap-4 h-full w-full">
 						<Tabs
 							key={"secondary"}
 							color={"secondary"}
 							aria-label="Options"
 							radius="full"
-							className="flex justify-center">
-							<Tab key="class" title="Class">
-								<Card className="h-72">
+							className="flex justify-center h-full w-full">
+							<Tab
+								key="class"
+								title="Class"
+								className="h-full w-full">
+								<Card className="h-72 w-full">
 									<CardBody>
 										<div className="divide-y divide-gray-900/5">
 											<p>AAA</p>
@@ -42,10 +45,18 @@ export default function Home() {
 											/>
 										</div>
 									</CardBody>
-								</Card>{" "}
+								</Card>
+								<Button
+									color="primary"
+									className="w-fit justify-self-center">
+									Search
+								</Button>
 							</Tab>
-							<Tab key="music" title="Music">
-								<Card className="h-72">
+							<Tab
+								key="music"
+								title="Music"
+								className="h-full w-full">
+								<Card className="h-72 w-full">
 									<CardBody>
 										<div className="divide-y divide-gray-900/5 flex-col w-full h-full">
 											<UploadModal />
@@ -54,7 +65,6 @@ export default function Home() {
 								</Card>
 							</Tab>
 						</Tabs>
-						<Button color="primary">Search</Button>
 					</div>
 				</div>
 			</main>

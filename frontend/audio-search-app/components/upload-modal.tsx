@@ -1,34 +1,54 @@
 "use client";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
+import { Button } from "@nextui-org/react";
+import { audioQuery } from "@/lib/route";
 
 export default function UploadModal() {
-	const [file, setFile] = useState<string>();
+	const [fileUrl, setFileUrl] = useState<string>();
+	const [file, setFile] = useState<File | null>(null);
 	const [fileEnter, setFileEnter] = useState(false);
+
+	const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+		const fileItem = event.target.files?.[0] || null;
+		setFile(fileItem);
+
+		if (fileItem) {
+			const preview = URL.createObjectURL(fileItem);
+			setFileUrl(preview);
+		} else {
+			setFileUrl("");
+		}
+	};
+
 	const drophandler = (e: React.DragEvent<HTMLElement>) => {
 		e.preventDefault();
 		setFileEnter(false);
 		if (e.dataTransfer.items) {
-			[...e.dataTransfer.items].forEach((item, i) => {
-				if (item.kind === "file") {
-					const file = item.getAsFile();
-					if (file) {
-						let blobUrl = URL.createObjectURL(file);
-						setFile(blobUrl);
-                        console.log(`set file: ${blobUrl}`);
-					}
-					console.log(`items file[${i}].name = ${file?.name}`);
+			const item = e.dataTransfer.items[0];
+			if (item.kind === "file") {
+				const fileItem = item.getAsFile();
+				setFile(fileItem);
+				if (fileItem) {
+					let preview = URL.createObjectURL(fileItem);
+					setFileUrl(preview);
 				}
-			});
+				console.log(`File name = ${fileItem?.name}`);
+			} else {
+				console.log("Not a file!!");
+			}
+		}
+	};
+	const searchHandler = () => {
+		if (file) {
+			audioQuery(file);
 		} else {
-			[...e.dataTransfer.files].forEach((file, i) => {
-				console.log(`… file[${i}].name = ${file.name}`);
-			});
+			console.log("file is null");
 		}
 	};
 
 	return (
 		<div className="flex-col place-items-center w-full h-full flex-wrap gap-4">
-			{!file ? (
+			{!fileUrl ? (
 				<div
 					onDragOver={(e) => {
 						e.preventDefault();
@@ -54,28 +74,28 @@ export default function UploadModal() {
 						id="file"
 						type="file"
 						className="hidden"
-						onChange={(e) => {
-							console.log(e.target.files);
-							let files = e.target.files;
-							if (files && files[0]) {
-								let blobUrl = URL.createObjectURL(files[0]);
-								setFile(blobUrl);
-							}
-						}}
+						onChange={(e) => handleFileChange(e)}
 					/>
 				</div>
 			) : (
 				<div className="flex flex-col items-center">
 					<object
 						className="rounded-md w-full max-w-xs h-72"
-						data={file}
+						data={fileUrl}
 						type="image/png" //need to be updated based on type of file
 					/>
-					<button
-						onClick={() => setFile("")}
-						className="px-4 mt-10 uppercase py-2 tracking-widest outline-none bg-red-600 text-white rounded">
+					<Button
+						color="primary"
+						className="w-fit"
+						onClick={() => searchHandler()}>
+						Search
+					</Button>
+					<Button
+						color="danger"
+						className="w-fit"
+						onClick={() => setFileUrl("")}>
 						Clear
-					</button>
+					</Button>
 				</div>
 			)}
 		</div>
