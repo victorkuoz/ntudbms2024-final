@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
 	Table,
 	TableHeader,
@@ -11,22 +11,24 @@ import {
 } from "@nextui-org/react";
 import { Result, ResultItem } from "@/lib/definitions";
 import DownloadButton from "./download-button";
+import AudioButton from "./audio-button";
+import { audioFetch } from "@/lib/route";
 
 const columns = [
-    "Title",
-    "Similarity",
-    "Preview",
-    "Download",
-    "Category",
-    "More"
-]
+	"Title",
+	"Similarity",
+	"Preview",
+	"Download",
+	"Category",
+	"More",
+];
 
 export interface ResultProps {
-    items: ResultItem[]
+	result: ResultItem[];
 }
 
-export default function ResultTable(results: ResultProps) {
-	return (
+export default function ResultTable({result}: ResultProps) {    
+    return (
 		<Table aria-label="Example table with dynamic content">
 			<TableHeader>
 				{columns.map((column) => (
@@ -34,21 +36,21 @@ export default function ResultTable(results: ResultProps) {
 				))}
 			</TableHeader>
 			<TableBody>
-				{results.items.map((row) => (
-					<TableRow key={`row-${row.id}`}>
+				{result.map((row, i) => (
+					<TableRow key={`row-${i}`}>
 						<TableCell>{row.title}</TableCell>
 						<TableCell>{row.similarity}</TableCell>
 						<TableCell>
-							<DownloadButton url={row.url}></DownloadButton>
+							<AudioButton filename={row.filename} />
 						</TableCell>
 						<TableCell>
-							<DownloadButton url={row.url}></DownloadButton>
+							<DownloadButton filename={row.filename} />
 						</TableCell>
 						<TableCell>
-							<DownloadButton url={row.url}></DownloadButton>
+							<DownloadButton filename={row.filename} />
 						</TableCell>
 						<TableCell>
-							<DownloadButton url={row.url}></DownloadButton>
+							<DownloadButton filename={row.filename} />
 						</TableCell>
 					</TableRow>
 				))}

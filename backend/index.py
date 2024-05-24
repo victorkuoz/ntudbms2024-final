@@ -1,7 +1,8 @@
 from fastapi import FastAPI, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from utility import *
-
+import os
 import io
 import soundfile as sf
 
@@ -21,6 +22,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+FILE_DIRECTORY = "../sample_mp3/"
+
 
 @app.post("/audio_query")
 async def audio_query(audio: UploadFile):
@@ -39,3 +42,10 @@ async def audio_embedding_query(embedding: list[float]):
 @app.get("/")
 def read_root():
     return {"Welcome to BTS"}
+
+@app.get("/file_query/{filename}")
+async def file_query(filename: str):
+    file_path = os.path.join(FILE_DIRECTORY, filename)
+    if os.path.exists(file_path):
+        return FileResponse(path=file_path, filename=filename)
+    return {"error": "File not found"}

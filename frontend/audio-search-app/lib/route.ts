@@ -23,15 +23,36 @@ export const audioQuery = async (file: File) => {
 	}
 }
 
-
-
-
-const sendFileUrlToPython = async (fileUrl: string) => {
+export const fileQuery = async (filename: string) => {
 	try {
-		const response = await fetch(API("/audio_query"), {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ fileUrl }),
+		const response = await fetch(API(`/file_query/${filename}`), {
+			method: "GET"
+		});
+
+		if (!response.ok) {
+			throw new Error(
+				`Error sending file URL to Python: ${response.statusText}`
+			);
+		} 
+
+        const blob = await response.blob();
+		const url = URL.createObjectURL(blob);
+		const link = document.createElement("a");
+		link.href = url;
+		link.setAttribute("download", filename);
+		document.body.appendChild(link);
+		link.click();
+		link.remove();
+
+	} catch (error) {
+		console.error("Error sending file URL to Python:", error);
+	}
+};
+
+export const audioFetch = async (filename: string) => {
+	try {
+		const response = await fetch(API(`/file_query/${filename}`), {
+			method: "GET",
 		});
 
 		if (!response.ok) {
@@ -41,20 +62,9 @@ const sendFileUrlToPython = async (fileUrl: string) => {
 		}
 
 		const blob = await response.blob();
-		const filename = fileUrl.split("/").pop(); // Extract filename from URL
-
-		const link = document.createElement("a");
-		link.href = URL.createObjectURL(blob);
-        link.setAttribute("download", `${filename}`);
-		link.click();
-		// Handle the response from the Python backend (e.g., display success message)
+		const url = URL.createObjectURL(blob);
+		return url
 	} catch (error) {
 		console.error("Error sending file URL to Python:", error);
-		// Handle errors gracefully (e.g., display an error message to the user)
 	}
-};
-
-export const downloadFile = async (fileUrl: string) => {
-	const file = await sendFileUrlToPython(fileUrl);
-	return;
 };

@@ -1,14 +1,14 @@
 import { Button } from "@nextui-org/react";
 import Image from "next/image";
-import { downloadFile } from "@/lib/route";
+import { fileQuery } from "@/lib/route";
 
 export interface DownloadProps {
-	url: string;
+	filename: string;
 }
 
-export default function DownloadButton({ url }: DownloadProps) {
-	const downloadHandler = async () => {
-		await downloadFile(url);
+export default function DownloadButton({ filename }: DownloadProps) {
+    const downloadHandler = async () => {
+        fileQuery(filename)
 	};
 	return (
 		<Button

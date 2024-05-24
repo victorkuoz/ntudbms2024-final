@@ -1,9 +1,17 @@
 "use client";
-import { searchPokedex } from "@/app/actions";
 import { Search } from "@/components/search";
-import { Tabs, Tab, Card, CardBody, CardHeader, Button} from "@nextui-org/react";
+import {
+	Tabs,
+	Tab,
+	Card,
+	CardBody,
+	CardHeader,
+	Button,
+	Divider,
+} from "@nextui-org/react";
 import Provider from "@/app/provider";
 import UploadModal from "@/components/upload-modal";
+import SearchBar from "@/components/search-bar";
 
 export const dynamic = "force-dynamic";
 
@@ -38,19 +46,18 @@ export default function Home() {
 								className="h-full w-full">
 								<Card className="h-72 w-full">
 									<CardBody>
-										<div className="divide-y divide-gray-900/5">
-											<p>AAA</p>
-											<Search
-												searchPokedex={searchPokedex}
-											/>
+										<div className="divide-y divide-gray-900/5 flex flex-col items-center">
+											<h2 className="text-xl font-semibold">
+												Search by categories
+											</h2>
+											<Divider />
+											<SearchBar />
 										</div>
 									</CardBody>
+									<div className="h-20 w-full flex justify-center items-center">
+										<Button color="primary">Search</Button>
+									</div>
 								</Card>
-								<Button
-									color="primary"
-									className="w-fit justify-self-center">
-									Search
-								</Button>
 							</Tab>
 							<Tab
 								key="music"

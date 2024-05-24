@@ -1,29 +1,33 @@
+"use client"
 import ResultTable from '@/components/result-table'
 import Provider from "@/app/provider";
+import { useState } from 'react';
+import { Result, ResultItem } from '@/lib/definitions';
 
 const items = [
 	{
 		id: 1,
 		title: "MP3-1",
 		similarity: 0.44,
-		url: "AAAAA",
+		filename: "test1.mp3",
 	},
 	{
 		id: 2,
 		title: "MP3-2",
 		similarity: 0.55,
-		url: "ACCAA",
+		filename: "test2.mp3",
 	},
 	{
 		id: 3,
 		title: "MP3-3",
 		similarity: 0.64,
-		url: "BBB",
-	}
+		filename: "test3.mp3",
+	},
 ];
 
 
-export default function page() {
+export default function ResultPage() {
+    const [result, setResult] = useState<ResultItem[]>(items)
     return (
 		<Provider>
 			<main className="relative flex min-h-screen flex-col items-center justify-center">
@@ -42,7 +46,7 @@ export default function page() {
 						</div>
 					</div>
 					<div className="flex flex-wrap gap-4">
-						<ResultTable items={items} />
+						<ResultTable result={result} />
 					</div>
 				</div>
 			</main>
