@@ -27,7 +27,6 @@ async def audio_query(audio: UploadFile):
     content, sampling_rate = sf.read(io.BytesIO(await audio.read()))
     embedding = audio_embedding([content])[0]
     result = audio_embedding_search(embedding)
-    # print("POST: /audio_query")
     return {'result': result}
 
 @app.post("/audio_embedding_query")
