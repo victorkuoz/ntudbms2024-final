@@ -1,7 +1,7 @@
 "use client";
 import { searchPokedex } from "@/app/actions";
 import { Search } from "@/components/search";
-import { Tabs, Tab, Card, CardBody, CardHeader} from "@nextui-org/react";
+import { Tabs, Tab, Card, CardBody, CardHeader, Button} from "@nextui-org/react";
 import Provider from "@/app/provider";
 import UploadModal from "@/components/upload-modal";
 
@@ -14,7 +14,7 @@ export default function Home() {
 				<h1 className="pt-4 pb-8 bg-gradient-to-br from-black via-[#171717] to-[#575757] bg-clip-text text-center text-4xl font-medium tracking-tight text-transparent md:text-7xl">
 					Title
 				</h1>
-				<div className="bg-white/30 p-6 lg:p-12 shadow-xl ring-1 ring-gray-900/5 rounded-lg backdrop-blur-lg max-w-xl mx-auto w-full">
+				<div className="bg-white/30 p-6 lg:p-12 shadow-xl ring-1 ring-gray-900/5 rounded-lg backdrop-blur-lg max-w-xl mx-auto w-full h-full">
 					<div className="flex justify-between items-center mb-4">
 						<div className="space-y-1">
 							<h2 className="text-xl font-semibold">
@@ -25,14 +25,15 @@ export default function Home() {
 							</p>
 						</div>
 					</div>
-					<div className="flex flex-wrap gap-4">
+					<div className="flex-col flex content-center flex-wrap gap-4 h-full">
 						<Tabs
 							key={"secondary"}
 							color={"secondary"}
 							aria-label="Options"
-							radius="full">
+							radius="full"
+							className="flex justify-center">
 							<Tab key="class" title="Class">
-								<Card>
+								<Card className="h-72">
 									<CardBody>
 										<div className="divide-y divide-gray-900/5">
 											<p>AAA</p>
@@ -44,15 +45,16 @@ export default function Home() {
 								</Card>{" "}
 							</Tab>
 							<Tab key="music" title="Music">
-								<Card>
+								<Card className="h-72">
 									<CardBody>
-										<div className="divide-y divide-gray-900/5">
+										<div className="divide-y divide-gray-900/5 flex-col w-full h-full">
 											<UploadModal />
 										</div>
 									</CardBody>
 								</Card>
 							</Tab>
 						</Tabs>
+						<Button color="primary">Search</Button>
 					</div>
 				</div>
 			</main>
