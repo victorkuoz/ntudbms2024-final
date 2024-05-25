@@ -15,6 +15,5 @@ pip install soundfile
 
 ## Milvus
 ```
-cd database
-python3 upload.py
+python3 preprocess.py
 ```
