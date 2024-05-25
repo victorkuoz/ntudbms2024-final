@@ -68,3 +68,21 @@ export const audioFetch = async (filename: string) => {
 		console.error("Error sending file URL to Python:", error);
 	}
 };
+
+export const moreAudioQuery = async (filename: string) => {
+	try {
+		const response = await fetch(API(`/more_audio_query/${filename}`), {
+			method: "GET",
+		});
+
+		if (!response.ok) {
+			throw new Error(
+				`Error sending file URL to Python: ${response.statusText}`
+			);
+		}
+        const result = await response.json();   
+		return result.result
+	} catch (error) {
+		console.error("Error sending file URL to Python:", error);
+	}
+};

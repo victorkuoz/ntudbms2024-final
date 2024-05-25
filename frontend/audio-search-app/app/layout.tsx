@@ -2,6 +2,8 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { HotToaster } from "../components/hot-toaster";
 import { Metadata } from "next";
+import Providers from "./providers";
+import NavBar from "@/components/nav-bar";
 
 export const metadata: Metadata = {
 	metadataBase: new URL("https://audio-search.app"),
@@ -23,8 +25,11 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={inter.variable}>
+				<Providers>
+                    <NavBar/>
 					{children}
 					<HotToaster />
+				</Providers>
 			</body>
 		</html>
 	);

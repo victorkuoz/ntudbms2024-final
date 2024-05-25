@@ -49,3 +49,23 @@ async def file_query(filename: str):
     if os.path.exists(file_path):
         return FileResponse(path=file_path, filename=filename)
     return {"error": "File not found"}
+
+@app.get("/more_audio_query/{filename}")
+async def more_audio_query(filename: str):
+    # search more similar audios by given filename
+    result = [
+        {
+		"title": "MP3-2",
+        "filename": "test2.mp3",
+		"similarity": 0.55,
+		
+	},
+	{
+		"title": "MP3-3",
+        "filename": "test3.mp3",
+		"similarity": 0.64,
+		
+	},
+    ]
+
+    return {'result': result}

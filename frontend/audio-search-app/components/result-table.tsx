@@ -13,6 +13,7 @@ import { Result, ResultItem } from "@/lib/definitions";
 import DownloadButton from "./download-button";
 import AudioButton from "./audio-button";
 import { audioFetch } from "@/lib/route";
+import MoreButton from "./more-button";
 
 const columns = [
 	"Title",
@@ -25,9 +26,10 @@ const columns = [
 
 export interface ResultProps {
 	result: ResultItem[];
+	setResult: (filename: string) => void;
 }
 
-export default function ResultTable({result}: ResultProps) {    
+export default function ResultTable({result, setResult}: ResultProps) {    
     return (
 		<Table aria-label="Example table with dynamic content">
 			<TableHeader>
@@ -50,7 +52,7 @@ export default function ResultTable({result}: ResultProps) {
 							<DownloadButton filename={row.filename} />
 						</TableCell>
 						<TableCell>
-							<DownloadButton filename={row.filename} />
+							<MoreButton filename={row.filename} setResult={setResult}/>
 						</TableCell>
 					</TableRow>
 				))}
