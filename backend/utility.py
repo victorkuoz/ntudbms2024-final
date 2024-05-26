@@ -1,24 +1,31 @@
 
 import random
+import pickle
 import numpy as np
 import soundfile as sf
-from pymilvus import connections, Collection
+from scipy import spatial
+from unqlite import UnQLite
+from pymilvus import connections, Collection, Partition
 from panns_inference import AudioTagging
 
 # milvus
-conn = connections.connect(alias='default', db_name='default', host='140.112.28.129', port='19530')
+conn = connections.connect(db_name='default', host='140.112.28.129', port='19530')
 audio_collection = Collection("audio")
-audio_collection.load()
 
 # model
 audio_model = AudioTagging(checkpoint_path=None, device="cpu")
+
+# database
+db = UnQLite("audio.db")
 
 def audio_embedding(content_list):    # 2048
     _, embedding_list = audio_model.inference(np.array(content_list))
     return embedding_list
 
-def audio_embedding_search(embedding):
-    hits = audio_collection.search(
+def audio_embedding_search(embedding, partition_name="default"):
+    audio_partition = Partition(collection=audio_collection, name=partition_name)
+    audio_partition.load()
+    hits = audio_partition.search(
         data=[embedding],
         anns_field="embedding",
         param={
@@ -31,14 +38,16 @@ def audio_embedding_search(embedding):
             }
         },
         limit=5,
-        output_fields=[],
-        # partition_names=[],
+        output_fields=["embedding"],
     )[0]
 
-    for hit in hits:
-        print(hit)
+    # for hit in hits:
+    #     print(hit)
 
+    audio_partition.release()
     return [{
         "filename": hit.id,
-        "distance": hit.distance
+        "distance": hit.distance,
+        # "embedding": hit.get("embedding")
     } for hit in hits]
+    

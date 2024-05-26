@@ -6,7 +6,10 @@ from sklearn.metrics import silhouette_score
 from unqlite import UnQLite
 import numpy as np
 import pickle
+import gdown
 import json
+
+gdown.download(id="1oEQijUkn5QerZ3UvaJ1a5N6G7mbDpjeG", output="audio.db")
 
 NUM_RECORD = 2000
 EMBEDDING_LEN = 2048
@@ -21,7 +24,7 @@ def retrive_data():
             data.append({
                 "filename": key,
                 "partition": "",
-                "embedding": pickle.loads(record["audio_embedding"]).tolist() # 2048
+                "embedding": pickle.loads(record["embedding"]).tolist() # 2048
             })
     return data
 
@@ -87,11 +90,12 @@ def upload(data):
         timeout=None
     )
 
-    partition_list = {}
+    partition_list = {"default": Partition(collection=collection, name="default", description="default")}
     for da in data:
         if da["partition"] not in partition_list:
             partition_list[da["partition"]] = Partition(collection=collection, name=da["partition"], description=da["partition"])
         partition_list[da["partition"]].insert({"filename": da["filename"], "embedding": da["embedding"]})
+        partition_list["default"].insert({"filename": da["filename"], "embedding": da["embedding"]})    # debug
 
 if __name__ == "__main__":
     data = retrive_data()

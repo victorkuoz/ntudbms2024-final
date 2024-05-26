@@ -2,3 +2,5 @@ bts/
 __pycache__/
 backend/*.ipynb
 backend/*.json
+backend/*.db
+backend/*.wav
