@@ -1,6 +1,6 @@
 bts/
 __pycache__/
+node_modules/
 backend/*.ipynb
-backend/*.json
 backend/*.db
 backend/*.wav

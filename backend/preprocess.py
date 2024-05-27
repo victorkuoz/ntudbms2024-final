@@ -42,10 +42,6 @@ def clustering(data, indices, layer):
             k = n
             max_score = score
 
-        # result = sorted(result)
-        # for res in result:
-        #     print(res)
-
     kmeans = KMeans(n_clusters=k, random_state=0, n_init="auto").fit(X)
     indices_list = [[] for _ in range(k)]
     for j, label in enumerate(kmeans.labels_.tolist()):
