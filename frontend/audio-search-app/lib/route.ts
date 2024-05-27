@@ -1,14 +1,15 @@
+import { ResultItem } from "./definitions";
 
 const API = (target: string) => `http://127.0.0.1:8000${target}`
 
 export const audioQuery = async (file: File) => {
     const formData = new FormData();
-	formData.append("file", file);
+	formData.append("audio", file);
     console.log(formData)
     try {
-		const response = await fetch(API("/audio_query"), {
+		const response = await fetch(API("/search_by_audio"), {
 			method: "POST",
-			body: formData
+			body: formData,
 		});
 
 		if (!response.ok) {
@@ -16,8 +17,15 @@ export const audioQuery = async (file: File) => {
 				`Error sending file URL to Python: ${response.statusText}`
 			);
 		} else {
-            console.log(response)
+            const result = await response.json();
+			if (result !== undefined) {
+				console.log("result");
+				return result.result;
+            }
         }
+        console.log("no results found");
+		return [];
+        
 	} catch (error) {
 		console.error("Error sending file URL to Python:", error);
 	}
@@ -25,7 +33,7 @@ export const audioQuery = async (file: File) => {
 
 export const fileQuery = async (filename: string) => {
 	try {
-		const response = await fetch(API(`/file_query/${filename}`), {
+		const response = await fetch(API(`/query_file/${filename}`), {
 			method: "GET"
 		});
 
@@ -51,7 +59,7 @@ export const fileQuery = async (filename: string) => {
 
 export const audioFetch = async (filename: string) => {
 	try {
-		const response = await fetch(API(`/file_query/${filename}`), {
+		const response = await fetch(API(`/query_file/${filename}`), {
 			method: "GET",
 		});
 
@@ -69,9 +77,10 @@ export const audioFetch = async (filename: string) => {
 	}
 };
 
-export const moreAudioQuery = async (filename: string) => {
+export const moreAudioQuery = async (filename: string): Promise<ResultItem[]> => {
 	try {
-		const response = await fetch(API(`/more_audio_query/${filename}`), {
+		
+		const response = await fetch(API(`/search_by_filename/${filename}`), {
 			method: "GET",
 		});
 
@@ -81,8 +90,15 @@ export const moreAudioQuery = async (filename: string) => {
 			);
 		}
         const result = await response.json();   
-		return result.result
+        console.log(result)
+        if (result !== undefined) {
+            console.log("not undefined")
+            return result.result;
+        }
+        console.log("no results found")
+		return [] as ResultItem[];
 	} catch (error) {
 		console.error("Error sending file URL to Python:", error);
+        return [] as ResultItem[];
 	}
 };

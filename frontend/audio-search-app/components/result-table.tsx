@@ -14,6 +14,7 @@ import DownloadButton from "./download-button";
 import AudioButton from "./audio-button";
 import { audioFetch } from "@/lib/route";
 import MoreButton from "./more-button";
+import { useResultContext } from "@/app/result-provider";
 
 const columns = [
 	"Title",
@@ -24,13 +25,12 @@ const columns = [
 	"More",
 ];
 
-export interface ResultProps {
-	result: ResultItem[];
-	setResult: (filename: string) => void;
-}
 
-export default function ResultTable({result, setResult}: ResultProps) {    
-    return (
+
+export default function ResultTable() {
+	const { result } = useResultContext();
+
+	return (
 		<Table aria-label="Example table with dynamic content">
 			<TableHeader>
 				{columns.map((column) => (
@@ -52,7 +52,9 @@ export default function ResultTable({result, setResult}: ResultProps) {
 							<DownloadButton filename={row.filename} />
 						</TableCell>
 						<TableCell>
-							<MoreButton filename={row.filename} setResult={setResult}/>
+							<MoreButton
+								filename={row.filename}
+							/>
 						</TableCell>
 					</TableRow>
 				))}

@@ -1,5 +1,4 @@
 "use client";
-import { Search } from "@/components/search";
 import {
 	Tabs,
 	Tab,

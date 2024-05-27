@@ -36,13 +36,6 @@ const items2 = [
 ];
 
 export default function ResultPage() {
-	const [result, setResult] = useState<ResultItem[]>(items);
-    const resultHandler = async (filename: string) => {
-        const res = await moreAudioQuery(filename);
-        console.log(res)
-        setResult(res)
-    }
-
 	return (
 		<main className="relative flex min-h-80 flex-col items-center justify-center">
 			<h1 className="pt-4 pb-8 bg-gradient-to-br from-black via-[#171717] to-[#575757] bg-clip-text text-center text-4xl font-medium tracking-tight text-transparent md:text-7xl">
@@ -60,7 +53,7 @@ export default function ResultPage() {
 					</div>
 				</div>
 				<div className="flex flex-wrap gap-4">
-					<ResultTable result={result} setResult={resultHandler} />
+					<ResultTable />
 				</div>
 			</div>
 		</main>

@@ -2,11 +2,15 @@
 import { ChangeEvent, useState } from "react";
 import { Button } from "@nextui-org/react";
 import { audioQuery } from "@/lib/route";
+import { useResultContext } from "@/app/result-provider";
+import { useRouter } from "next/navigation";
 
 export default function UploadModal() {
 	const [fileUrl, setFileUrl] = useState<string>();
 	const [file, setFile] = useState<File | null>(null);
 	const [fileEnter, setFileEnter] = useState(false);
+    const {resultHandler} = useResultContext();
+    const router = useRouter();
 
 	const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
 		const fileItem = event.target.files?.[0] || null;
@@ -38,9 +42,11 @@ export default function UploadModal() {
 			}
 		}
 	};
-	const searchHandler = () => {
+	const searchHandler = async () => {
 		if (file) {
-			audioQuery(file);
+			const res = await audioQuery(file);
+            resultHandler(res);
+            router.push("/result");
 		} else {
 			console.log("file is null");
 		}

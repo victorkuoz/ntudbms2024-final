@@ -30,15 +30,14 @@ async def search_by_audio(audio: UploadFile):
     content, sampling_rate = sf.read(io.BytesIO(await audio.read()))
     embedding = audio_embedding([content])[0]
     result = audio_embedding_search(embedding)
-
     return {"result": result}
 
-@app.get("/search_by_filename")
+@app.get("/search_by_filename/{filename}")
 async def search_by_audio_embedding(filename: str):
     record = pickle.loads(db[filename])
     embedding = pickle.loads(record["embedding"])
     result = audio_embedding_search(embedding)
-
+    print("serach_by_filename: " + str(result))
     return {"result": result}
 
 @app.get("/query_file/{filename}")
