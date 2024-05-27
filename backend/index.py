@@ -29,7 +29,8 @@ FILE_DIRECTORY = "../sample_mp3/"
 async def search_by_audio(audio: UploadFile):
     content, sampling_rate = sf.read(io.BytesIO(await audio.read()))
     embedding = audio_embedding([content])[0]
-    result = audio_embedding_search(embedding)
+    partiton = get_partition(embedding, centroids)
+    result = audio_embedding_search(embedding, partiton)
 
     return {"result": result}
 
@@ -37,7 +38,8 @@ async def search_by_audio(audio: UploadFile):
 async def search_by_audio_embedding(filename: str):
     record = pickle.loads(db[filename])
     embedding = pickle.loads(record["embedding"])
-    result = audio_embedding_search(embedding)
+    partiton = get_partition(embedding, centroids)
+    result = audio_embedding_search(embedding, partiton)
 
     return {"result": result}
 
