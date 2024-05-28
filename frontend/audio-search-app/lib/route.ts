@@ -30,6 +30,7 @@ export const audioQuery = async (file: File) => {
         
 	} catch (error) {
 		console.error("Error sending file URL to Python:", error);
+        return []
 	}
 }
 
@@ -56,6 +57,7 @@ export const fileQuery = async (filename: string) => {
 
 	} catch (error) {
 		console.error("Error sending file URL to Python:", error);
+        return []
 	}
 };
 
@@ -76,6 +78,7 @@ export const audioFetch = async (filename: string) => {
 		return url
 	} catch (error) {
 		console.error("Error sending file URL to Python:", error);
+        return []
 	}
 };
 

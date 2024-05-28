@@ -8,6 +8,7 @@ import {
 	TableRow,
 	TableCell,
 	getKeyValue,
+	Skeleton,
 } from "@nextui-org/react";
 import { Result, ResultItem } from "@/lib/definitions";
 import DownloadButton from "./download-button";
@@ -15,6 +16,8 @@ import AudioButton from "./audio-button";
 import { audioFetch } from "@/lib/route";
 import MoreButton from "./more-button";
 import { useResultContext } from "@/app/result-provider";
+
+const NODATA = "Nothing found!"
 
 const columns = [
 	"Title",
@@ -25,10 +28,8 @@ const columns = [
 	"More",
 ];
 
-
-
 export default function ResultTable() {
-	const { result } = useResultContext();
+	const { result, isLoaded } = useResultContext();
 
 	return (
 		<Table aria-label="Example table with dynamic content">
@@ -37,28 +38,39 @@ export default function ResultTable() {
 					<TableColumn key={`column-${column}`}>{column}</TableColumn>
 				))}
 			</TableHeader>
-			<TableBody>
-				{result.map((row, i) => (
-					<TableRow key={`row-${i}`}>
-						<TableCell>{row.title}</TableCell>
-						<TableCell>{row.similarity}</TableCell>
-						<TableCell>
-							<AudioButton filename={row.filename} />
-						</TableCell>
-						<TableCell>
-							<DownloadButton filename={row.filename} />
-						</TableCell>
-						<TableCell>
-							<DownloadButton filename={row.filename} />
-						</TableCell>
-						<TableCell>
-							<MoreButton
-								filename={row.filename}
-							/>
-						</TableCell>
+			{result.length !== 0 ? (
+				<TableBody isLoading={isLoaded}>
+					{result.map((row, i) => (
+						<TableRow key={`row-${i}`}>
+							<TableCell>{row.title}</TableCell>
+							<TableCell>{row.similarity}</TableCell>
+							<TableCell>
+								<AudioButton filename={row.filename} />
+							</TableCell>
+							<TableCell>
+								<DownloadButton filename={row.filename} />
+							</TableCell>
+							<TableCell>
+								<DownloadButton filename={row.filename} />
+							</TableCell>
+							<TableCell>
+								<MoreButton filename={row.filename} />
+							</TableCell>
+						</TableRow>
+					))}
+				</TableBody>
+			) : (
+				<TableBody isLoading={isLoaded}>
+					<TableRow key={`row-nodata`}>
+						<TableCell>{NODATA}</TableCell>
+						<TableCell>{NODATA}</TableCell>
+						<TableCell>{NODATA}</TableCell>
+						<TableCell>{NODATA}</TableCell>
+						<TableCell>{NODATA}</TableCell>
+						<TableCell>{NODATA}</TableCell>
 					</TableRow>
-				))}
-			</TableBody>
+				</TableBody>
+			)}
 		</Table>
 	);
 }
