@@ -12,7 +12,7 @@ app = FastAPI()
 # Define the origins that should be allowed to make requests to this API
 origins = [
     "http://localhost:3000",  # Add your frontend URL here
-    "http://127.0.0.1:3000",  # If you're using a different port, include it as well
+    "http://127.0.0.1:3000",
 ]
 
 app.add_middleware(

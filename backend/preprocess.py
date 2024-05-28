@@ -9,8 +9,6 @@ import pickle
 import gdown
 import json
 
-gdown.download(id="1oEQijUkn5QerZ3UvaJ1a5N6G7mbDpjeG", output="audio.db")
-
 NUM_RECORD = 2000
 EMBEDDING_LEN = 2048
 FLOOR, CEILING, MAX_LAYER = 2, 12, 2
@@ -94,6 +92,7 @@ def upload(data):
         partition_list["default"].insert({"filename": da["filename"], "embedding": da["embedding"]})    # debug
 
 if __name__ == "__main__":
+    gdown.download(id="1oEQijUkn5QerZ3UvaJ1a5N6G7mbDpjeG", output="audio.db")
     data = retrive_data()
     centroids = clustering(data, range(NUM_RECORD), 1)
     with open("centroids.json", "w+") as jsonfile:

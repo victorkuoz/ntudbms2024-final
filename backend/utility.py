@@ -63,7 +63,8 @@ def audio_embedding_search(embedding, partition_name="default"):
 
     audio_partition.release()
     return [{
+        "title": hit.id,
         "filename": hit.id,
-        "distance": hit.distance,
+        "similarity": hit.distance,
         # "embedding": hit.get("embedding")
     } for hit in hits]
