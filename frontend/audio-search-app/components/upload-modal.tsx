@@ -10,6 +10,7 @@ export default function UploadModal() {
 	const [file, setFile] = useState<File | null>(null);
 	const [fileEnter, setFileEnter] = useState(false);
     const {resultHandler} = useResultContext();
+    const [loading, setLoading] = useState<boolean>(false);
     const router = useRouter();
 
 	const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +45,9 @@ export default function UploadModal() {
 	};
 	const searchHandler = async () => {
 		if (file) {
-			const res = await audioQuery(file);
+            setLoading(true)
+            const res = await audioQuery(file);
+            setLoading(false)
             resultHandler(res);
             router.push("/result");
 		} else {
@@ -93,7 +96,8 @@ export default function UploadModal() {
 					<Button
 						color="primary"
 						className="w-fit"
-						onClick={() => searchHandler()}>
+						onClick={() => searchHandler()}
+						isLoading={loading}>
 						Search
 					</Button>
 					<Button

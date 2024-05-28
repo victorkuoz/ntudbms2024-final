@@ -1,6 +1,8 @@
 import { ResultItem } from "./definitions";
 
-const API = (target: string) => `http://127.0.0.1:8000${target}`
+// const API = (target: string) => `http://127.0.0.1:8000${target}`
+
+const API = (target: string) => `http://140.112.28.129:8000${target}`;
 
 export const audioQuery = async (file: File) => {
     const formData = new FormData();
