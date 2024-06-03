@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { audioFetch } from "@/lib/route";
 import {
@@ -12,6 +12,7 @@ import {
 	Image,
 	useDisclosure,
 } from "@nextui-org/react";
+import { useResultContext } from "@/app/result-provider";
 
 interface AudioButtonProps {
 	filename: string;
@@ -21,6 +22,7 @@ export default function AudioButton({ filename }: AudioButtonProps) {
 	const [audioSrc, setAudioSrc] = useState<string | undefined>("");
 	const [downloaded, setDownloaded] = useState<boolean>(false);
 	const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const { result } = useResultContext();
 
 	const handleFetchAudio = async () => {
 		if (!downloaded) {
@@ -31,6 +33,11 @@ export default function AudioButton({ filename }: AudioButtonProps) {
 		}
 		onOpen();
 	};
+
+    useEffect(() => {
+        setAudioSrc(undefined)
+        setDownloaded(false)
+    }, [result])
 
 	return (
 		<Button
