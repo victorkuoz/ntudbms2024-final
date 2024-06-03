@@ -8,9 +8,12 @@ export interface MoreProps {
 }
 
 export default function MoreButton({ filename}: MoreProps) {
+    const { setIsLoaded } = useResultContext();
     const clickHandler = async (filename: string) => {
-        const res = await moreAudioQuery(filename)
-        resultHandler(res)
+        setIsLoaded(true);
+		const res = await moreAudioQuery(filename);
+		setIsLoaded(false);
+		resultHandler(res);
     }
     const {resultHandler} = useResultContext()
 	return (

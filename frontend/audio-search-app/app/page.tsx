@@ -25,7 +25,7 @@ export default function Home() {
 	return (
 		<main className="relative flex min-h-80 flex-col items-center justify-center">
 			<h1 className="pt-4 pb-8 bg-gradient-to-br from-black via-[#171717] to-[#575757] bg-clip-text text-center text-4xl font-medium tracking-tight text-transparent md:text-7xl">
-				Title
+				Audio Search
 			</h1>
 			<div className="bg-white/30 p-6 lg:p-12 shadow-xl ring-1 ring-gray-900/5 rounded-lg backdrop-blur-lg max-w-xl mx-auto w-full h-full">
 				<div className="flex justify-between items-center mb-4">
@@ -33,7 +33,7 @@ export default function Home() {
 						<h2 className="text-xl font-semibold">
 							Search the sound, semantically
 						</h2>
-						<p className="text-sm text-gray-500 leading-5">Try .</p>
+						<p className="text-sm text-gray-500 leading-5">Try to upload your preferred music or choose categories.</p>
 					</div>
 				</div>
 				<div className="flex-col flex content-center items-center flex-wrap gap-4 h-full w-full">
@@ -43,6 +43,18 @@ export default function Home() {
 						aria-label="Options"
 						radius="full"
 						className="flex justify-center h-full w-full">
+						<Tab
+							key="music"
+							title="Music"
+							className="h-full w-full">
+							<Card className="h-72 w-full">
+								<CardBody>
+									<div className="divide-y divide-gray-900/5 flex-col w-full h-full">
+										<UploadModal />
+									</div>
+								</CardBody>
+							</Card>
+						</Tab>
 						<Tab
 							key="class"
 							title="Class"
@@ -64,18 +76,6 @@ export default function Home() {
 										Search
 									</Button>
 								</div>
-							</Card>
-						</Tab>
-						<Tab
-							key="music"
-							title="Music"
-							className="h-full w-full">
-							<Card className="h-72 w-full">
-								<CardBody>
-									<div className="divide-y divide-gray-900/5 flex-col w-full h-full">
-										<UploadModal />
-									</div>
-								</CardBody>
 							</Card>
 						</Tab>
 					</Tabs>
