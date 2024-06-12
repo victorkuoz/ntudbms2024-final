@@ -39,7 +39,6 @@ def get_partition(embedding, centroids):
     return partition
 
 def audio_embedding_search(embedding, partition_name="default"):
-    print(partition_name)
     audio_partition = Partition(collection=audio_collection, name=partition_name)
     cnt = audio_partition.load()
     hits = audio_partition.search(

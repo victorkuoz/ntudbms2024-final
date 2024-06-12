@@ -1,33 +1,29 @@
 from fastapi import FastAPI, UploadFile, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
+import soundfile as sf
 from utility import *
 import os
 import io
 import json
-import soundfile as sf
 
 app = FastAPI()
 
-# Define the origins that should be allowed to make requests to this API
-origins = [
-    "http://localhost:3000",  # Add your frontend URL here
-    "http://127.0.0.1:3000",
-]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-FILE_DIRECTORY = "../sample_mp3/"
-
 @app.post("/search_by_audio")
 async def search_by_audio(audio: UploadFile):
     content, sampling_rate = sf.read(io.BytesIO(await audio.read()))
+
+    if len(content.shape) == 2:
+        content = content[:, 1]
+
     embedding = audio_embedding([content])[0]
     partiton = get_partition(embedding, centroids)
     result = audio_embedding_search(embedding, partiton)
