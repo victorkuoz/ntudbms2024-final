@@ -55,7 +55,7 @@ export default function Home() {
 								</CardBody>
 							</Card>
 						</Tab>
-						<Tab
+						{/* <Tab
 							key="class"
 							title="Class"
 							className="h-full w-full">
@@ -77,7 +77,7 @@ export default function Home() {
 									</Button>
 								</div>
 							</Card>
-						</Tab>
+						</Tab> */}
 					</Tabs>
 				</div>
 			</div>
